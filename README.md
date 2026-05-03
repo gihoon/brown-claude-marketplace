@@ -3,6 +3,10 @@
 Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 데 도움을 주는
 스킬들을 공개 마켓플레이스 형태로 관리합니다.
 
+> **Claude + Notion + Slack을 주로 사용하는 조직에 최적화**되어 있습니다.
+> 다른 환경을 쓰는 경우, 스킬을 포크하거나 `allowed-tools`를 수정해서
+> 그대로 가져다 쓰면 됩니다.
+
 ## 요구사항
 
 - [Claude Code](https://claude.ai/code) (CLI 또는 데스크탑 앱)
