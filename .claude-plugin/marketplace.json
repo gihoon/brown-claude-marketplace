@@ -1,11 +1,11 @@
 {
-  "name": "productify",
+  "name": "brown-claude-marketplace",
   "owner": {
     "name": "kimyoon21",
     "url": "https://github.com/kimyoon21"
   },
   "metadata": {
-    "description": "Productify — 아이디어·명세서를 받아 제품 형태를 결정하고 페이즈별 로드맵을 설계하는 Claude Code 스킬"
+    "description": "Brown의 Claude Code 플러그인 모음"
   },
   "plugins": [
     {
