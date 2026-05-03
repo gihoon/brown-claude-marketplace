@@ -25,9 +25,6 @@ allowed-tools:
   - Write
   # 결과물 저장 — Notion
   - mcp__notion__notion-create-pages
-  # 결과물 공유 — Slack
-  - mcp__claude_ai_Slack__slack_send_message
-  - mcp__claude_ai_Slack__slack_send_message_draft
   # Form Judge 서브에이전트
   - Agent
 ---

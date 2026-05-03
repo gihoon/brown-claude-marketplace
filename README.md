@@ -39,7 +39,7 @@ Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 �
 - Notion 페이지 URL
 - Google Docs / Sheets URL
 
-**결과물 저장**: 로컬 파일, Notion 페이지, Slack 메시지 전송 가능
+**결과물 저장**: 로컬 파일 또는 Notion 페이지
 
 ## 업데이트
 
