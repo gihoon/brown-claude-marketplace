@@ -10,12 +10,26 @@ description: >
   등을 언급하면 이 스킬을 사용한다.
 argument-hint: "{명세서 경로 또는 Notion URL 또는 아이디어 텍스트}"
 allowed-tools:
-  - mcp__notion__notion-fetch
-  - mcp__notion__notion-create-pages
+  # 명세서 읽기 — 로컬 파일
   - Read
-  - Write
-  - Agent
+  - Glob
+  - Grep
+  # 명세서 읽기 — 웹/외부 문서
   - WebFetch
+  # 명세서 읽기 — Notion
+  - mcp__notion__notion-fetch
+  # 명세서 읽기 — Google Drive / Docs / Sheets
+  - mcp__claude_ai_Google_Drive__google_drive_search
+  - mcp__claude_ai_Google_Drive__google_drive_read_file
+  # 결과물 저장 — 로컬
+  - Write
+  # 결과물 저장 — Notion
+  - mcp__notion__notion-create-pages
+  # 결과물 공유 — Slack
+  - mcp__claude_ai_Slack__slack_send_message
+  - mcp__claude_ai_Slack__slack_send_message_draft
+  # Form Judge 서브에이전트
+  - Agent
 ---
 
 # productify -- 제품화 로드맵 설계

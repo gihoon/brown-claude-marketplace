@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "idea-develop",
-      "source": "./plugins/idea-develop"
+      "name": "productify",
+      "source": "./plugins/productify"
     }
   ]
 }

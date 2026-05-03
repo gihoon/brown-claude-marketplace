@@ -1,5 +1,5 @@
 {
-  "name": "idea-develop",
+  "name": "productify",
   "version": "1.0.0",
   "description": "아이디어·명세서를 받아 최적 제품 형태를 결정하고 페이즈별 로드맵을 설계합니다. 경량화 우선 원칙과 보안 체크 포함.",
   "author": {
