@@ -19,24 +19,22 @@ Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 �
 /plugin marketplace add https://github.com/kimyoon21/brown-claude-marketplace
 
 # 플러그인 설치
-/plugin install productify@brown-claude-marketplace
+/plugin install ideas-come-true@brown-claude-marketplace
 ```
 
 ## 플러그인 목록
 
-### productify
+### ideas-come-true
 
-아이디어나 명세서를 받아 **최적의 제품 형태**를 결정하고
-**페이즈별 로드맵**을 설계하는 스킬.
+아이디어를 실제 제품으로 만드는 스킬 모음.
+**sharpen → productify** 순서로 사용하면 아이디어에서 로드맵까지 한 번에 완성됩니다.
 
-경량화 우선 원칙으로 가장 작은 리소스로 문제를 해결할 수 있는
-형태(Claude 스킬 / 스크립트 / 크롬 익스텐션 / 로컬 HTML / 서비스 등)를
-자동으로 찾아줍니다.
+| 스킬 | 설명 | 트리거 |
+|------|------|--------|
+| sharpen | 모호한 아이디어·요청을 구체적인 명세서로 다듬기 | "sharpen", "구체화해줘", "명세 잡아줘" 등 |
+| productify | 명세서를 받아 최적 제품 형태 결정 + 페이즈별 로드맵 설계 | "productify", "제품화", "로드맵 짜줘" 등 |
 
-**트리거**: "productify", "제품화", "어떻게 만들지", "로드맵 짜줘",
-"뭐부터 만들지", "MVP 플래닝", "페이즈 나눠줘"
-
-**지원 입력**:
+**productify 지원 입력**:
 
 - 텍스트로 아이디어 설명
 - 로컬 명세서 파일 경로
@@ -48,5 +46,5 @@ Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 �
 ## 업데이트
 
 ```bash
-/plugin update productify@brown-claude-marketplace
+/plugin update ideas-come-true@brown-claude-marketplace
 ```

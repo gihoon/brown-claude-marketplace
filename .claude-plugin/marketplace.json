@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "productify",
-      "source": "./plugins/productify"
+      "name": "ideas-come-true",
+      "source": "./plugins/ideas-come-true"
     }
   ]
 }
