@@ -1,6 +1,5 @@
 /* ============================================================
-   DSRV Report — Design System
-   샘플 PDF(한국 규제에 맞는 스테이블코인 결제 시스템 표준 제안서) 재현
+   Research Report — Design System
    ============================================================ */
 
 @font-face{
@@ -106,14 +105,14 @@ table.compare tbody th{ background:var(--blue-deep); color:#fff; font-weight:700
 table.compare tbody td{ background:var(--blue-tint); padding:3mm 2.8mm; vertical-align:top; line-height:1.55; }
 table.compare caption{ caption-side:top; text-align:left; font-weight:800; font-size:10pt; margin-bottom:2mm; color:var(--ink); }
 
-/* ---------- DSRV View 박스 ---------- */
-.dsrv-view{
+/* ---------- View 박스 ---------- */
+.view-box{
   background:var(--blue-tint-2); border-left:4px solid var(--blue-primary);
   padding:4.5mm 5mm; margin:6mm 0; border-radius:0 4px 4px 0;
 }
-.dsrv-view .label{ color:var(--blue-primary); font-weight:800; font-size:10.5pt; margin-bottom:2mm; letter-spacing:.4px; }
-.dsrv-view p{ font-size:9.8pt; line-height:1.7; margin-bottom:2mm; }
-.dsrv-view p:last-child{ margin-bottom:0; }
+.view-box .label{ color:var(--blue-primary); font-weight:800; font-size:10.5pt; margin-bottom:2mm; letter-spacing:.4px; }
+.view-box p{ font-size:9.8pt; line-height:1.7; margin-bottom:2mm; }
+.view-box p:last-child{ margin-bottom:0; }
 
 /* ---------- 주석 ---------- */
 .note{ font-style:italic; color:var(--gray-caption); font-size:9pt; }
@@ -133,7 +132,7 @@ table.compare caption{ caption-side:top; text-align:left; font-weight:800; font-
   position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
   color:rgba(255,255,255,.18); font-size:9.5pt; text-align:center; width:80%; line-height:1.6;
 }
-.cover .dsrv-top{ position:absolute; top:16mm; right:18mm; width:35mm; height:10mm; background:url("../images/dsrv-master-dark-512w.png") no-repeat right center/contain; }
+.cover .report-top{ position:absolute; top:16mm; right:18mm; width:35mm; height:10mm; background:url("../images/logo-dark.png") no-repeat right center/contain; }
 .cover .cover-title{ position:absolute; top:56mm; left:16mm; right:16mm; font-size:27pt; font-weight:800; line-height:1.4; }
 .cover .cover-sub{ position:absolute; top:108mm; left:20mm; right:20mm; font-size:15pt; font-weight:600; color:#fff; text-align:right; }
 .cover .cover-date{ position:absolute; top:122mm; right:20mm; font-weight:700; font-size:13pt; }

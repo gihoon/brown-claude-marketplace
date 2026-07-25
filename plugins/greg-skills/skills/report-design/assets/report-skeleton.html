@@ -15,7 +15,7 @@
     body{ font-family:'Source Serif 4', Georgia, 'Times New Roman', serif; }
     .cover-title,.cover-sub,.cover-date,.cover-url,.rep-title,.w-label,.w-name,.w-name small,
     .toc-title,.toc-item,.exec-title,h1.chapter,h2.section,h3.subsection,
-    .takeaway .tk-head,.dsrv-view .label,
+    .takeaway .tk-head,.view-box .label,
     table.compare th,table.compare td,table.compare caption,
     .page-no,.footer-copy{ font-family:'Inter', -apple-system, 'Segoe UI', sans-serif; }
     .w-name .w-person{ display:inline-block; min-width:42mm; }   /* 직책 좌측 정렬 */
@@ -28,11 +28,11 @@
 <!-- 배경 이미지를 쓰려면 design-system.css의 .cover background를 그라데이션+이미지로.
      표지 글자에 text-shadow 금지(PDF에서 검정 박스로 보임) — 가독성은 네이비 오버레이로 확보 -->
 <section class="cover">
-  <div class="dsrv-top"></div>
+  <div class="report-top"></div>
   <div class="cover-title">[제목 1행]<br>[제목 2행]</div>
   <div class="cover-sub">[부제]</div>
   <div class="cover-date">Mon. YYYY</div>
-  <div class="cover-url">dsrv.com</div>
+  <div class="cover-url">[회사 URL]</div>
 </section>
 
 <!-- ============================== Writers ============================== -->
@@ -45,7 +45,7 @@
   </div>
   <div class="disclaimer">
     <p>[면책 1: 자료 성격(현장 기록·공개 자료), 발표자 발언 귀속, 발간일 기준·변동 가능, 일부 부정확 가능]</p>
-    <p>[면책 2: 투자 추천·법률 자문 아님, 활용 책임은 이용자. 자유롭게 공유·인용 가능하되 출처(DSRV) 표기]</p>
+    <p>[면책 2: 투자 추천·법률 자문 아님, 활용 책임은 이용자. 자유롭게 공유·인용 가능하되 출처 표기]</p>
   </div>
 </section>
 
@@ -111,9 +111,9 @@
 
     <p class="note">※ [수치 출처·검증 단서·균형 설명]</p>
 
-    <div class="dsrv-view">
-      <div class="label">DSRV View</div>
-      <p>[해당 세션·챕터에 대한 DSRV의 해석과 시사점]</p>
+    <div class="view-box">
+      <div class="label">View</div>
+      <p>[해당 세션·챕터에 대한 해석과 시사점]</p>
     </div>
   </div>
 </section>
@@ -122,22 +122,22 @@
 <section class="page contact">
   <div class="page-body">
     <h1 class="chapter" style="margin-bottom:6mm;">Business Contact</h1>
-    <p>research@dsrvlabs.com</p>
+    <p>[이메일]</p>
 
     <div class="contact-logo" style="margin-top:95mm;"></div>
-    <p style="text-align:left; line-height:2; margin-top:0;">https://dsrv.com<br>https://x.com/dsrvlabs<br>https://dsrv.medium.com<br>https://dsrv.com/ko/resource/report</p>
+    <p style="text-align:left; line-height:2; margin-top:0;">[회사 URL]<br>[SNS]<br>[블로그]<br>[리포트 아카이브]</p>
 
     <div class="disclaimer" style="left:0; right:0; bottom:-2mm;">
       <p>[면책 1 — Writers의 면책과 동일 내용]</p>
-      <p>[면책 2 + &copy; YYYY dsrv labs Co., Ltd. All rights reserved.]</p>
+      <p>[면책 2 + &copy; YYYY [조직명]. All rights reserved.]</p>
     </div>
   </div>
 </section>
 
-<!-- 머리말(D로고+페이지번호)·꼬리말(카피라이트+DSRV로고) 자동 주입. 표지 제외, Writers=2부터 -->
+<!-- 머리말(로고+페이지번호)·꼬리말(카피라이트+로고) 자동 주입. 표지 제외, Writers=2부터 -->
 <script>
 (function(){
-  var FOOT = '<div class="footer-copy">&copy; YYYY dsrv labs Co.,Ltd. All rights reserved.<br>The DSRV name and logo are trademarks of dsrv labs Co.,Ltd.</div><div class="footer-logo"></div>';
+  var FOOT = '<div class="footer-copy">&copy; YYYY [조직명]. All rights reserved.</div><div class="footer-logo"></div>';
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++){
     var pg = pages[i];

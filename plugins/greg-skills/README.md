@@ -1,23 +1,12 @@
 # greg-skills
 
-아이디어 파이프라인과 지식관리 파이프라인을 하나로 묶은 Claude Code 스킬 패키지.
+지식관리 파이프라인과 아이디어 파이프라인을 하나로 묶은 Claude Code 스킬 패키지.
 
 > **출처**
 > - 원본 저장소: [kimyoon21/brown-claude-marketplace](https://github.com/kimyoon21/brown-claude-marketplace)
 > - 참고 자료: [vibelabs.kr/shared/8](https://vibelabs.kr/shared/8)
 
 ## 스킬 목록
-
-### 아이디어 파이프라인
-
-```
-/sharpen → /productify
-```
-
-| 스킬 | 설명 |
-|------|------|
-| `/sharpen` | 모호한 아이디어·요청을 구체적인 명세서로 다듬기 |
-| `/productify` | 명세서를 받아 최적 제품 형태 결정 + 페이즈별 로드맵 설계 |
 
 ### 지식관리 파이프라인 (Zettelkasten)
 
@@ -37,11 +26,22 @@
 | `/query` | 볼트 4-Way 검색 (키워드·태그·클러스터·연결 기준) |
 | `/lint` | 볼트 건강 점검 (고아 노트, 깨진 링크, 미처리 raw) |
 
+### 아이디어 파이프라인
+
+```
+/sharpen → /productify
+```
+
+| 스킬 | 설명 |
+|------|------|
+| `/sharpen` | 모호한 아이디어·요청을 구체적인 명세서로 다듬기 |
+| `/productify` | 명세서를 받아 최적 제품 형태 결정 + 페이즈별 로드맵 설계 |
+
 ### 리포트·발표
 
 | 스킬 | 설명 |
 |------|------|
-| `/report-design` | DSRV 스타일 기관 리서치 리포트를 A4 PDF로 생성 (Chrome headless 렌더) |
+| `/report-design` | 기관 리서치 리포트를 A4 PDF로 생성 (Chrome headless 렌더) |
 | `/report-pt` | `agent_payments_PT` 형식의 에디토리얼 슬라이드 덱(HTML) 생성 |
 
 ## 디렉터리 구조
@@ -75,8 +75,8 @@ greg-skills/
 
 ```
 /raw 오늘 미팅에서 나온 아이디어 메모
-/sharpen 이 아이디어를 제품 명세로 만들어줘
-/productify
 /perm 새로운 인사이트 정리
 /query 지식관리 관련 노트 찾아줘
+/sharpen 이 아이디어를 제품 명세로 만들어줘
+/productify
 ```
