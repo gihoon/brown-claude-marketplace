@@ -22,18 +22,27 @@
 ### 지식관리 파이프라인 (Zettelkasten)
 
 ```
-/raw → /perm → /wiki
-          ↓
-     /query  /lint
+/raw → /literature → /perm → /wiki
+                        ↓
+              /index  /query  /lint
 ```
 
 | 스킬 | 설명 |
 |------|------|
 | `/raw` | 임시노트 즉시 저장. `/raw scan`으로 미처리 목록 확인 후 영구노트 전환 |
+| `/literature` | 문헌노트 생성. 읽은 자료를 자기 말로 소화해 `1 Literature/`에 저장 |
 | `/perm` | 원자적 영구노트 생성. VAULT_INDEX 연결 + cascade.py 후처리 |
 | `/wiki` | 클러스터 개념 허브 페이지 생성 |
+| `/index` | 프론트매터 기반 VAULT_INDEX 자동 생성·갱신 (perm·query·lint의 토대) |
 | `/query` | 볼트 4-Way 검색 (키워드·태그·클러스터·연결 기준) |
 | `/lint` | 볼트 건강 점검 (고아 노트, 깨진 링크, 미처리 raw) |
+
+### 리포트·발표
+
+| 스킬 | 설명 |
+|------|------|
+| `/report-design` | DSRV 스타일 기관 리서치 리포트를 A4 PDF로 생성 (Chrome headless 렌더) |
+| `/report-pt` | `agent_payments_PT` 형식의 에디토리얼 슬라이드 덱(HTML) 생성 |
 
 ## 디렉터리 구조
 
@@ -45,12 +54,20 @@ greg-skills/
 │   ├── sharpen/SKILL.md
 │   ├── productify/SKILL.md
 │   ├── raw/SKILL.md
+│   ├── literature/SKILL.md
 │   ├── perm/SKILL.md
 │   │   └── cascade.py
 │   ├── wiki/SKILL.md
+│   ├── index/SKILL.md
 │   ├── query/SKILL.md
 │   │   └── search.py
-│   └── lint/SKILL.md
+│   ├── lint/SKILL.md
+│   ├── report-design/
+│   │   ├── SKILL.md
+│   │   └── assets/          # design-system.css · report-skeleton.html · fonts · images
+│   └── report-pt/
+│       ├── SKILL.md
+│       └── assets/          # pt-skeleton.html (에디토리얼 슬라이드 덱)
 └── README.md
 ```
 

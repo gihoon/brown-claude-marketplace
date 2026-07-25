@@ -1,7 +1,7 @@
 {
   "name": "greg-skills",
   "version": "1.0.0",
-  "description": "아이디어 파이프라인(sharpen→productify) + 지식 파이프라인(raw→perm→wiki). 총 7개 스킬.",
+  "description": "아이디어 파이프라인(sharpen→productify) + 지식 파이프라인(raw→literature→perm→wiki) + 리포트·발표(report-design·report-pt). 총 11개 스킬.",
   "author": {
     "name": "greg",
     "url": "https://github.com/gihoon"

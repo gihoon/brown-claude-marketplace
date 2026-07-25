@@ -13,6 +13,52 @@ Greg의 Claude Code 스킬 마켓플레이스. 아이디어 파이프라인과 �
 
 - [Claude Code](https://claude.ai/code) (CLI 또는 데스크탑 앱)
 - Claude Pro 이상 (Agent 서브에이전트 사용)
+- Python 3.9+ (cascade.py, search.py 실행용)
+- Obsidian (볼트 뷰어)
+
+## 옵시디언 볼트 준비
+
+스킬을 사용하려면 먼저 옵시디언 볼트가 아래 구조로 준비되어 있어야 한다.
+
+### 스타터킷으로 시작하기 (권장)
+
+원본 스타터킷을 내려받아 Claude Code에게 설치를 맡기는 가장 빠른 방법.
+
+1. [Google Drive에서 zettel-connect-starter.zip 다운로드](https://drive.google.com/file/d/1KCm_BE93x8vh5gg_-fx0YjDkSsIzToFs/view?usp=drive_link)
+2. 아래 프롬프트를 Claude Code에 붙여넣기
+
+```
+zettel-connect-starter.zip을 사용해서 옵시디언 제텔카스텐 볼트를 설치해줘.
+zip 파일 경로와 새 볼트 경로를 물어봐서 진행해줘.
+설치 후 SKILL.md 파일 7개의 VAULT_ROOT 경로를 내 볼트 경로로 치환해줘.
+```
+
+### 볼트 폴더 구조
+
+```
+볼트 루트/
+├── 0 raw/            ← /raw 저장 위치 (임시노트)
+├── 1 wiki/           ← /wiki 생성 위치 (개념 허브)
+├── 2 Permanent/      ← /perm 저장 위치 (영구노트)
+├── 3 Archive/        ← 처리 완료된 raw 보관
+├── _index/
+│   ├── VAULT_INDEX.md   ← 전체 노트 인덱스 (스킬이 자동 관리)
+│   └── GRAPH.md         ← 노트 연결 그래프
+├── _templates/
+├── _attachments/
+└── CLAUDE.md         ← 볼트 행동 지침
+```
+
+### 핵심: VAULT_ROOT 경로 치환
+
+스킬 설치 후 반드시 7개 SKILL.md의 `VAULT_ROOT` 값을 실제 볼트 경로로 변경해야 한다.
+
+```bash
+# 치환 누락 확인
+grep -r "futurewave" ~/.claude/skills/ 2>/dev/null || echo "✅ clean"
+```
+
+`✅ clean`이 출력되면 정상.
 
 ## 설치
 
@@ -28,7 +74,7 @@ Greg의 Claude Code 스킬 마켓플레이스. 아이디어 파이프라인과 �
 
 ### greg-skills
 
-아이디어 파이프라인 + 지식관리 파이프라인. 총 7개 스킬.
+아이디어 파이프라인 + 지식관리 파이프라인 + 리포트·발표. 총 11개 스킬.
 
 #### 아이디어 파이프라인
 
@@ -42,19 +88,31 @@ Greg의 Claude Code 스킬 마켓플레이스. 아이디어 파이프라인과 �
 | 스킬 | 설명 | 트리거 |
 |------|------|--------|
 | `/raw` | 임시노트 즉시 저장 / `scan`으로 미처리 목록 확인 | `/raw`, `/raw scan` |
+| `/literature` | 문헌노트 생성 (읽은 자료를 자기 말로 소화 → `1 Literature/`) | `/literature` |
 | `/perm` | 원자적 영구노트 생성 + VAULT_INDEX 연결 | `/perm` |
 | `/wiki` | 클러스터 개념 허브 페이지 생성 | `/wiki` |
+| `/index` | 프론트매터 기반 VAULT_INDEX 자동 생성·갱신 | `/index` |
 | `/query` | 볼트 4-Way 검색 | `/query` |
 | `/lint` | 볼트 건강 점검 | `/lint` |
 
-#### 두 파이프라인의 흐름
+#### 리포트·발표
+
+| 스킬 | 설명 | 트리거 |
+|------|------|--------|
+| `/report-design` | DSRV 스타일 기관 리서치 리포트를 A4 PDF로 생성 | `/report-design`, `리포트`, `보고서` |
+| `/report-pt` | `agent_payments_PT` 형식의 에디토리얼 슬라이드 덱(HTML) 생성 | `/report-pt`, `발표자료`, `슬라이드` |
+
+#### 파이프라인의 흐름
 
 ```
 아이디어 떠오름
   │
-  ├─ 메모로 남기기 ──→ /raw → /perm → /wiki  (지식 축적)
+  ├─ 메모로 남기기 ──→ /raw → /literature → /perm → /wiki   (지식 축적)
+  │                                  └→ /index /query /lint  (탐색·점검)
   │
-  └─ 제품으로 만들기 ──→ /sharpen → /productify        (실행 계획)
+  ├─ 제품으로 만들기 ─→ /sharpen → /productify              (실행 계획)
+  │
+  └─ 발표·리포트로 ────→ /report-pt · /report-design         (슬라이드 · PDF)
 ```
 
 ## 업데이트
@@ -85,6 +143,18 @@ Greg의 Claude Code 스킬 마켓플레이스. 아이디어 파이프라인과 �
 
 ---
 
+### /literature — 읽은 자료를 문헌노트로
+
+책·논문·아티클을 자기 말로 소화해 `1 Literature/`에 기록한다. `/raw`(내 생각)와 달리 **출처가 있는 자료**를 다룬다.
+
+```
+/literature 루만 「Communicating with Slip Boxes」 — 제텔카스텐의 핵심은 대화 상대로서의 메모다
+```
+
+출처를 체계적으로 남기고, 영구노트로 발전시킬 후보 개념을 표시해준다. → `/perm`으로 이어짐.
+
+---
+
 ### /perm — 아이디어를 영구노트로
 
 생각이 충분히 익었을 때 제텔카스텐에 정식 기록한다.
@@ -104,6 +174,18 @@ Claude가 VAULT_INDEX를 읽어 연결할 기존 노트를 3개 이하로 추천
 ```
 /wiki AI에이전트
 ```
+
+---
+
+### /index — VAULT_INDEX 자동 생성·갱신
+
+`2 Permanent/`·`1 Literature/`의 모든 노트 프론트매터(claim·tags·links)를 한 파일로 압축한다. `/perm`·`/query`·`/lint`가 이 인덱스를 읽어 동작하므로, **지식관리 파이프라인의 토대**다.
+
+```
+/index
+```
+
+RAG 없이 프론트매터만으로 볼트 전체를 탐색 가능하게 만든다. 노트가 추가·수정되면 다시 돌려 갱신한다.
 
 ---
 
@@ -168,6 +250,30 @@ Notion 페이지를 입력으로 쓸 수도 있다:
 - 🟢 SAFE: 공개 API, 익명화 데이터 → 안전 진행
 
 **결과물**: 제품 형태 근거 + 의존성 + Phase별 목표/기준/보안 체크가 담긴 로드맵 문서
+
+---
+
+### /report-design — 기관급 리서치 리포트 PDF
+
+정리된 내용을 **DSRV 하우스 스타일의 A4 PDF 리포트**로 내보낸다 (JP Morgan·미래에셋 급 기관 리서치 수준). 리포트·보고서·참관/현장 리포트를 요청하면 동작한다.
+
+```
+/report-design ETHConf 2026 참관 리포트 만들어줘
+```
+
+표지·목차·Executive Summary·"DSRV View" 박스·비교표·풀인용·디스클레이머로 구성되며, Pretendard(한글)+Source Serif 4/Inter(영문) 폰트를 로컬 임베드해 **Chrome headless로 PDF 렌더**한다.
+
+---
+
+### /report-pt — 발표용 슬라이드 덱
+
+정리된 전략·기획을 **에디토리얼 HTML 슬라이드 덱**으로 만든다 (`agent_payments_PT.html` 형식). 스크롤·방향키로 넘기는 풀뷰포트 프레젠테이션.
+
+```
+/report-pt 둘레값 사업 피치덱 만들어줘
+```
+
+종이 질감·Pretendard·우측 progress dots의 일관된 포맷으로 cover·cards3·timeline·compare·revenue·end 등 슬라이드 타입을 조합한다. `<주제>_PT.html`로 저장 후 브라우저로 발표(필요 시 PDF 인쇄).
 
 ---
 
