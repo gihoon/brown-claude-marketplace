@@ -2,6 +2,10 @@
 
 아이디어 파이프라인과 지식관리 파이프라인을 하나로 묶은 Claude Code 스킬 패키지.
 
+> **출처**
+> - 원본 저장소: [kimyoon21/brown-claude-marketplace](https://github.com/kimyoon21/brown-claude-marketplace)
+> - 참고 자료: [vibelabs.kr/shared/8](https://vibelabs.kr/shared/8)
+
 ## 스킬 목록
 
 ### 아이디어 파이프라인
