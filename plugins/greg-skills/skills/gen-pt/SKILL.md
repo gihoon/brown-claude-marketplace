@@ -1,5 +1,5 @@
 ---
-name: report-pt
+name: gen-pt
 description: agent_payments_PT.html 형식의 에디토리얼 슬라이드 덱(HTML)을 생성. 스크롤-스냅 풀뷰포트 슬라이드, Pretendard, 종이 질감·inset 프레임, cover·cards3·timeline·compare·revenue·end 등 슬라이드 타입. 발표자료·PT·슬라이드·피치덱 요청 시 사용.
 ---
 

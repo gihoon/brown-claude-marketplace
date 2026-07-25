@@ -1,5 +1,5 @@
 ---
-name: report-design
+name: gen-report
 description: >-
   Create an institutional research report as an A4 PDF (JP Morgan / 미래에셋 급 기관 리서치 수준).
   Use this whenever the user asks to write/build a research report, market report, 리포트, 보고서, or 참관/현장 리포트.

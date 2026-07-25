@@ -27,7 +27,7 @@ Greg의 Claude Code 스킬 패키지. 지식을 쌓고 → 아이디어로 다�
   │
   ├─ 지식을 제품으로 ─→ /sharpen → /productify              (실행 계획)
   │
-  └─ 발표·리포트로 ────→ /report-pt · /report-design         (슬라이드 · PDF)
+  └─ 발표·리포트로 ────→ /gen-pt · /gen-report         (슬라이드 · PDF)
 ```
 
 ---
@@ -204,24 +204,24 @@ Notion 페이지도 입력 가능:
 
 ## 리포트·발표
 
-### /report-design — A4 PDF 기관 리포트
+### /gen-report — A4 PDF 기관 리포트
 
 **언제**: 정리된 내용을 기관급 리서치 리포트로 내보낼 때.
 
 ```
-/report-design ETHConf 2026 참관 리포트 만들어줘
+/gen-report ETHConf 2026 참관 리포트 만들어줘
 ```
 
 기관 리포트 스타일 (표지·목차·Executive Summary·"View" 인사이트 박스·디스클레이머). Pretendard+Source Serif 4 폰트 임베드, Chrome headless PDF 렌더.
 
 ---
 
-### /report-pt — HTML 슬라이드 덱
+### /gen-pt — HTML 슬라이드 덱
 
 **언제**: 전략·기획을 발표용 슬라이드로 만들 때.
 
 ```
-/report-pt 둘레값 사업 피치덱 만들어줘
+/gen-pt 둘레값 사업 피치덱 만들어줘
 ```
 
 에디토리얼 풀뷰포트 HTML. 스크롤·방향키 탐색. `<주제>_PT.html`로 저장 후 브라우저에서 발표.
@@ -254,8 +254,8 @@ Notion 페이지도 입력 가능:
 ### 3. 발표·리포트
 
 ```
-/report-pt 프로젝트 피치덱 만들어줘
-/report-design 월간 리서치 리포트 만들어줘
+/gen-pt 프로젝트 피치덱 만들어줘
+/gen-report 월간 리서치 리포트 만들어줘
 ```
 
 ### 4. 볼트 정기 점검 (월 1회)

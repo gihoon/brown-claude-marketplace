@@ -41,8 +41,8 @@
 
 | 스킬 | 설명 |
 |------|------|
-| `/report-design` | 기관 리서치 리포트를 A4 PDF로 생성 (Chrome headless 렌더) |
-| `/report-pt` | `agent_payments_PT` 형식의 에디토리얼 슬라이드 덱(HTML) 생성 |
+| `/gen-report` | 기관 리서치 리포트를 A4 PDF로 생성 (Chrome headless 렌더) |
+| `/gen-pt` | `agent_payments_PT` 형식의 에디토리얼 슬라이드 덱(HTML) 생성 |
 
 ## 디렉터리 구조
 
