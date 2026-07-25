@@ -1,16 +1,16 @@
 {
-  "name": "brown-claude-marketplace",
+  "name": "greg-skills",
   "owner": {
-    "name": "kimyoon21",
-    "url": "https://github.com/kimyoon21"
+    "name": "greg",
+    "url": "https://github.com/gihoon"
   },
   "metadata": {
-    "description": "Brown의 Claude Code 플러그인 모음"
+    "description": "Greg의 Claude Code 스킬 모음 — 아이디어·제품화·지식관리 파이프라인"
   },
   "plugins": [
     {
-      "name": "ideas-come-true",
-      "source": "./plugins/ideas-come-true"
+      "name": "greg-skills",
+      "source": "./plugins/greg-skills"
     }
   ]
 }

@@ -1,11 +1,6 @@
 # brown-claude-marketplace
 
-Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 데 도움을 주는
-스킬들을 공개 마켓플레이스 형태로 관리합니다.
-
-> **Claude + Notion + Slack을 주로 사용하는 조직에 최적화**되어 있습니다.
-> 다른 환경을 쓰는 경우, 스킬을 포크하거나 `allowed-tools`를 수정해서
-> 그대로 가져다 쓰면 됩니다.
+Greg의 Claude Code 스킬 마켓플레이스. 아이디어 파이프라인과 지식관리 파이프라인을 하나의 패키지로 제공합니다.
 
 ## 요구사항
 
@@ -16,35 +11,47 @@ Claude Code 플러그인 모음. 아이디어를 실제 제품으로 만드는 �
 
 ```bash
 # 마켓플레이스 등록 (최초 1회)
-/plugin marketplace add https://github.com/kimyoon21/brown-claude-marketplace
+/plugin marketplace add https://github.com/gihoon/brown-claude-marketplace
 
 # 플러그인 설치
-/plugin install ideas-come-true@brown-claude-marketplace
+/plugin install greg-skills@brown-claude-marketplace
 ```
 
 ## 플러그인 목록
 
-### ideas-come-true
+### greg-skills
 
-아이디어를 실제 제품으로 만드는 스킬 모음.
-**sharpen → productify** 순서로 사용하면 아이디어에서 로드맵까지 한 번에 완성됩니다.
+아이디어 파이프라인 + 지식관리 파이프라인. 총 7개 스킬.
+
+#### 아이디어 파이프라인
 
 | 스킬 | 설명 | 트리거 |
 |------|------|--------|
-| sharpen | 모호한 아이디어·요청을 구체적인 명세서로 다듬기 | "sharpen", "구체화해줘", "명세 잡아줘" 등 |
-| productify | 명세서를 받아 최적 제품 형태 결정 + 페이즈별 로드맵 설계 | "productify", "제품화", "로드맵 짜줘" 등 |
+| `/sharpen` | 모호한 아이디어를 구체적인 명세서로 다듬기 | `/sharpen`, `/구체화` |
+| `/productify` | 명세서를 받아 페이즈별 로드맵 설계 | `/productify`, `/제품화` |
 
-**productify 지원 입력**:
+#### 지식관리 파이프라인 (Zettelkasten)
 
-- 텍스트로 아이디어 설명
-- 로컬 명세서 파일 경로
-- Notion 페이지 URL
-- Google Docs / Sheets URL
+| 스킬 | 설명 | 트리거 |
+|------|------|--------|
+| `/raw` | 임시노트 즉시 저장 / `scan`으로 미처리 목록 확인 | `/raw`, `/raw scan` |
+| `/perm` | 원자적 영구노트 생성 + VAULT_INDEX 연결 | `/perm` |
+| `/wiki` | 클러스터 개념 허브 페이지 생성 | `/wiki` |
+| `/query` | 볼트 4-Way 검색 | `/query` |
+| `/lint` | 볼트 건강 점검 | `/lint` |
 
-**결과물 저장**: 로컬 파일 또는 Notion 페이지
+#### 두 파이프라인의 흐름
+
+```
+아이디어 떠오름
+  │
+  ├─ 메모로 남기기 ──→ /raw → /perm → /wiki  (지식 축적)
+  │
+  └─ 제품으로 만들기 ──→ /sharpen → /productify        (실행 계획)
+```
 
 ## 업데이트
 
 ```bash
-/plugin update ideas-come-true@brown-claude-marketplace
+/plugin update greg-skills@brown-claude-marketplace
 ```
