@@ -8,12 +8,21 @@ Greg의 Claude Code 스킬 패키지. 지식을 쌓고 → 아이디어로 다�
 
 ## 설치
 
-```bash
-/plugin marketplace add https://github.com/gihoon/brown-claude-marketplace
+```
+/plugin marketplace add https://github.com/gihoon/greg-claude-marketplace
 /plugin install greg-skills@greg-claude-marketplace
 ```
 
-업데이트: `/plugin update greg-skills@greg-claude-marketplace`
+```
+/plugin update greg-skills@greg-claude-marketplace
+```
+
+이미 설치된 경우, github에서 업데이트
+```
+/plugin uninstall greg-skills@greg-claude-marketplace
+/plugin install greg-skills@greg-claude-marketplace
+/reload-plugins
+```
 
 ---
 
