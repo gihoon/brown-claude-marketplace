@@ -49,10 +49,8 @@ body{
   position:absolute; top:11mm; left:var(--pad-x); right:var(--pad-x);
   display:flex; align-items:center; justify-content:space-between;
 }
-/* D 모노그램 (favicon, 흰 바탕 검정 D) */
 .logo-mono{
   width:8mm; height:8mm;
-  background:url("../images/dsrv-favicon-dark-square-512.png") no-repeat center/contain;
 }
 .page-no{ color:#555; font-weight:600; font-size:11pt; }
 
@@ -61,7 +59,7 @@ body{
   display:flex; align-items:flex-end; justify-content:space-between; gap:4mm;
 }
 .footer-copy{ color:var(--gray-footer); font-size:7.5pt; line-height:1.55; text-align:right; flex:1; position:relative; top:1.5mm; }
-.footer-logo{ width:21mm; height:6mm; background:url("../images/dsrv-master-light-512w.png") no-repeat right center/contain; }
+.footer-logo{ display:none; }
 
 .page-body{
   position:absolute; top:26mm; left:var(--pad-x); right:var(--pad-x); bottom:24mm;
@@ -132,7 +130,7 @@ table.compare caption{ caption-side:top; text-align:left; font-weight:800; font-
   position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
   color:rgba(255,255,255,.18); font-size:9.5pt; text-align:center; width:80%; line-height:1.6;
 }
-.cover .report-top{ position:absolute; top:16mm; right:18mm; width:35mm; height:10mm; background:url("../images/logo-dark.png") no-repeat right center/contain; }
+.cover .report-top{ display:none; }
 .cover .cover-title{ position:absolute; top:56mm; left:16mm; right:16mm; font-size:27pt; font-weight:800; line-height:1.4; }
 .cover .cover-sub{ position:absolute; top:108mm; left:20mm; right:20mm; font-size:15pt; font-weight:600; color:#fff; text-align:right; }
 .cover .cover-date{ position:absolute; top:122mm; right:20mm; font-weight:700; font-size:13pt; }
@@ -176,7 +174,7 @@ table.compare caption{ caption-side:top; text-align:left; font-weight:800; font-
 /* ============================================================
    Business Contact
    ============================================================ */
-.contact-logo{ width:42mm; height:12mm; background:url("../images/dsrv-master-light-512w.png") no-repeat left center/contain; margin-bottom:12mm; }
+.contact-logo{ display:none; }
 .contact-lead{ font-size:13pt; font-weight:700; color:var(--blue-primary); margin-bottom:6mm; line-height:1.5; }
 .contact-list{ margin-top:4mm; }
 .contact-list li::before{ color:var(--blue-primary); }
