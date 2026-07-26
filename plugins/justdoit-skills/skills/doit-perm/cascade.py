@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-Cascade Update Script — /permanent Step 5 토큰 절감용
+Cascade Update Script — /doit-perm Step 5 토큰 절감용
 Claude가 직접 Read/Edit하는 대신 이 스크립트가 일괄 처리.
 
 Usage:
   python3 cascade.py <vault_root> <new_note_path> <new_id> <parent_id> <linked_ids...>
 
 Example:
-  python3 cascade.py "/path/to/vault" "2 Permanent/8d. 제목.md" "8d" "8" "6f" "1a1" "5a"
+  python3 cascade.py "/path/to/vault" "2 Permanent/0025 제목/0025. 제목.md" "0025" "0024" "0023"
+
+new_note_path: VAULT_ROOT 기준 상대 경로 (폴더 포함 가능)
 """
-import sys, os, re, json, datetime
+import sys, os, re, json
 
 def read_file(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -19,8 +21,29 @@ def write_file(path, content):
     with open(path, 'w', encoding='utf-8') as f:
         f.write(content)
 
+def find_notes_by_id(vault_root, note_id):
+    """2 Permanent/ 전체(하위 폴더 포함)에서 ID로 시작하는 .md 파일 목록 반환."""
+    perm_root = os.path.join(vault_root, '2 Permanent')
+    matches = []
+    for dirpath, _, filenames in os.walk(perm_root):
+        for f in filenames:
+            if not f.endswith('.md'):
+                continue
+            if f.startswith(f'{note_id}.') or f.startswith(f'{note_id} '):
+                matches.append(os.path.join(dirpath, f))
+    return matches
+
+def find_topic_folder(vault_root, top_id):
+    """최상위 ID에 해당하는 폴더 찾기. 예: '0025' → '2 Permanent/0025 제목/'."""
+    perm_root = os.path.join(vault_root, '2 Permanent')
+    for entry in os.listdir(perm_root):
+        full = os.path.join(perm_root, entry)
+        if os.path.isdir(full) and (entry.startswith(f'{top_id} ') or entry == top_id):
+            return full
+    return None
+
 def add_id_to_links(content, new_id):
-    """frontmatter의 links 배열에 new_id 추가 (이미 있으면 스킵)"""
+    """frontmatter의 links[] 배열에 new_id 추가 (이미 있으면 스킵)."""
     pattern = r'(links:\s*\[)(.*?)(\])'
     match = re.search(pattern, content)
     if not match:
@@ -28,14 +51,11 @@ def add_id_to_links(content, new_id):
     existing = match.group(2)
     if f'"{new_id}"' in existing:
         return content, False
-    if existing.strip():
-        new_links = f'{existing}, "{new_id}"'
-    else:
-        new_links = f'"{new_id}"'
+    new_links = f'{existing}, "{new_id}"' if existing.strip() else f'"{new_id}"'
     return content[:match.start()] + match.group(1) + new_links + match.group(3) + content[match.end():], True
 
 def append_to_vault_index(vault_root, new_id, claim, tags, links, cluster):
-    """VAULT_INDEX.md의 해당 클러스터 테이블에 1줄 추가"""
+    """VAULT_INDEX.md의 해당 클러스터 테이블에 1줄 추가."""
     idx_path = os.path.join(vault_root, '_index', 'VAULT_INDEX.md')
     if not os.path.exists(idx_path):
         return False
@@ -44,90 +64,74 @@ def append_to_vault_index(vault_root, new_id, claim, tags, links, cluster):
     links_str = ', '.join(links) if links else ''
     new_row = f'| {new_id} | {claim} | {tags_str} | {links_str} |'
     cluster_header = f'## 클러스터: {cluster}'
-    if cluster_header in content:
-        lines = content.split('\n')
-        insert_idx = None
-        for i, line in enumerate(lines):
-            if cluster_header in line:
-                for j in range(i+1, len(lines)):
-                    if lines[j].startswith('## ') or lines[j].startswith('---'):
-                        insert_idx = j
-                        break
-                    if lines[j].startswith('|') and not lines[j].startswith('| ID') and not lines[j].startswith('|--'):
-                        insert_idx = j + 1
-                if insert_idx is None:
-                    insert_idx = len(lines)
-                break
-        if insert_idx:
-            lines.insert(insert_idx, new_row)
-            write_file(idx_path, '\n'.join(lines))
-            return True
+    if cluster_header not in content:
+        return False
+    lines = content.split('\n')
+    insert_idx = None
+    for i, line in enumerate(lines):
+        if cluster_header in line:
+            for j in range(i + 1, len(lines)):
+                if lines[j].startswith('## ') or lines[j].startswith('---'):
+                    insert_idx = j
+                    break
+                if lines[j].startswith('|') and not lines[j].startswith('| ID') and not lines[j].startswith('|--'):
+                    insert_idx = j + 1
+            if insert_idx is None:
+                insert_idx = len(lines)
+            break
+    if insert_idx:
+        lines.insert(insert_idx, new_row)
+        write_file(idx_path, '\n'.join(lines))
+        return True
     return False
 
 def update_graph(vault_root, new_id, links):
-    """GRAPH.md에 1줄 추가"""
+    """GRAPH.md에 1줄 추가."""
     graph_path = os.path.join(vault_root, '_index', 'GRAPH.md')
     if not os.path.exists(graph_path):
         return False
     content = read_file(graph_path)
     links_str = ', '.join(links) if links else ''
     new_line = f'{new_id} → {links_str}'
-    if new_line not in content:
-        stats_idx = content.find('## 통계')
-        if stats_idx > 0:
-            content = content[:stats_idx] + new_line + '\n' + content[stats_idx:]
-        else:
-            content += '\n' + new_line
-        write_file(graph_path, content)
+    if new_line in content:
+        return True
+    stats_idx = content.find('## 통계')
+    if stats_idx > 0:
+        content = content[:stats_idx] + new_line + '\n' + content[stats_idx:]
+    else:
+        content += '\n' + new_line
+    write_file(graph_path, content)
     return True
 
 def update_wiki_page(vault_root, cluster, new_id, claim):
-    """해당 클러스터의 wiki 개념 페이지에 새 노트 1줄 추가"""
+    """해당 클러스터의 wiki 개념 페이지에 새 노트 1줄 추가."""
     if not cluster:
         return False
     wiki_path = os.path.join(vault_root, '1 wiki', f'{cluster}.md')
     if not os.path.exists(wiki_path):
         return False
     content = read_file(wiki_path)
-
-    # 이미 있는지 확인
     if f'[[{new_id}]]' in content:
         return True
-
-    # claim 테이블에 새 행 추가 (테이블 마지막 행 뒤에)
     new_row = f'| [[{new_id}]] | {claim} |'
-
-    # "## 교차 태그" 앞에 삽입
-    marker = '## 교차 태그'
-    if marker in content:
-        content = content.replace(marker, f'{new_row}\n\n{marker}')
-    else:
-        # 마커 없으면 "## 주요 흐름" 앞에
-        marker2 = '## 주요 흐름'
-        if marker2 in content:
-            content = content.replace(marker2, f'{new_row}\n\n{marker2}')
-
-    # note_count 업데이트
+    for marker in ['## 교차 태그', '## 주요 흐름']:
+        if marker in content:
+            content = content.replace(marker, f'{new_row}\n\n{marker}')
+            break
     count_match = re.search(r'note_count:\s*(\d+)', content)
     if count_match:
-        old_count = int(count_match.group(1))
-        content = content.replace(f'note_count: {old_count}', f'note_count: {old_count + 1}')
-
-    # 본문의 "N개 영구노트" 업데이트
+        old = int(count_match.group(1))
+        content = content.replace(f'note_count: {old}', f'note_count: {old + 1}')
     body_count = re.search(r'(\d+)개 영구노트', content)
     if body_count:
         old = int(body_count.group(1))
         content = content.replace(f'{old}개 영구노트', f'{old + 1}개 영구노트')
-
     write_file(wiki_path, content)
     return True
 
 def extract_frontmatter_field(content, field):
-    """frontmatter에서 특정 필드 값 추출"""
     match = re.search(rf'^{field}:\s*"?(.+?)"?\s*$', content, re.MULTILINE)
-    if match:
-        return match.group(1).strip('"')
-    return ''
+    return match.group(1).strip('"') if match else ''
 
 def extract_links_array(content):
     match = re.search(r'links:\s*\[(.*?)\]', content)
@@ -136,8 +140,7 @@ def extract_links_array(content):
     return []
 
 def extract_tags_array(content):
-    tags = []
-    in_tags = False
+    tags, in_tags = [], False
     for line in content.split('\n'):
         if line.strip().startswith('tags:'):
             in_tags = True
@@ -148,6 +151,11 @@ def extract_tags_array(content):
             elif line.strip() and not line.strip().startswith('-'):
                 break
     return tags
+
+def get_top_id(note_id):
+    """하위 ID에서 최상위 숫자 ID 추출. '0025a1' → '0025'."""
+    match = re.match(r'^(\d+)', note_id)
+    return match.group(1) if match else note_id
 
 def main():
     if len(sys.argv) < 5:
@@ -170,45 +178,40 @@ def main():
     cluster = extract_frontmatter_field(new_content, 'cluster')
     all_links = extract_links_array(new_content)
     tags = extract_tags_array(new_content)
-    title = os.path.basename(new_note_path).replace('.md', '').split('. ', 1)[-1] if '. ' in os.path.basename(new_note_path) else os.path.basename(new_note_path).replace('.md', '')
 
     results = {"cascade": [], "index": {}, "warnings": []}
 
-    # 1. Parent note: add child link
+    # 1. 부모 노트: 하위 폴더까지 재귀 탐색 후 child link 추가
     if parent_id:
-        parent_files = [f for f in os.listdir(os.path.join(vault_root, '2 Permanent'))
-                       if f.startswith(f'{parent_id}.') or f.startswith(f'{parent_id} ')]
-        for pf in parent_files:
-            ppath = os.path.join(vault_root, '2 Permanent', pf)
+        parent_files = find_notes_by_id(vault_root, parent_id)
+        if not parent_files:
+            results["warnings"].append(f"parent {parent_id} not found")
+        for ppath in parent_files:
             pcontent = read_file(ppath)
             pcontent, changed = add_id_to_links(pcontent, new_id)
             if changed:
                 write_file(ppath, pcontent)
-                results["cascade"].append({"path": f"2 Permanent/{pf}", "change": "structural"})
+                rel = os.path.relpath(ppath, vault_root)
+                results["cascade"].append({"path": rel, "change": "structural"})
 
-    # 2. Semantic reverse links
+    # 2. 연결 노트: 역방향 links[] 추가 (재귀 탐색)
     for lid in linked_ids:
         if lid == parent_id:
             continue
-        matching = [f for f in os.listdir(os.path.join(vault_root, '2 Permanent'))
-                   if f.startswith(f'{lid}.') or f.startswith(f'{lid} ')]
-        for mf in matching:
-            mpath = os.path.join(vault_root, '2 Permanent', mf)
+        for mpath in find_notes_by_id(vault_root, lid):
             mcontent = read_file(mpath)
             mcontent, changed = add_id_to_links(mcontent, new_id)
             if changed:
                 write_file(mpath, mcontent)
-                results["cascade"].append({"path": f"2 Permanent/{mf}", "change": "semantic"})
+                rel = os.path.relpath(mpath, vault_root)
+                results["cascade"].append({"path": rel, "change": "semantic"})
 
-    # 3. Index incremental update
-    idx_ok = append_to_vault_index(vault_root, new_id, claim, tags, all_links, cluster)
-    graph_ok = update_graph(vault_root, new_id, all_links)
-    results["index"]["vault_index"] = idx_ok
-    results["index"]["graph"] = graph_ok
+    # 3. VAULT_INDEX & GRAPH 갱신
+    results["index"]["vault_index"] = append_to_vault_index(vault_root, new_id, claim, tags, all_links, cluster)
+    results["index"]["graph"] = update_graph(vault_root, new_id, all_links)
 
-    # 4. Wiki concept page incremental update
-    wiki_ok = update_wiki_page(vault_root, cluster, new_id, claim)
-    results["index"]["wiki"] = wiki_ok
+    # 4. Wiki 개념 페이지 갱신
+    results["index"]["wiki"] = update_wiki_page(vault_root, cluster, new_id, claim)
 
     print(json.dumps(results, ensure_ascii=False, indent=2))
 
