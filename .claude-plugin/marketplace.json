@@ -9,8 +9,8 @@
   },
   "plugins": [
     {
-      "name": "greg-skills",
-      "source": "./plugins/greg-skills"
+      "name": "justdoit-skills",
+      "source": "./plugins/justdoit-skills"
     }
   ]
 }
