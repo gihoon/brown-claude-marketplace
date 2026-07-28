@@ -1,6 +1,6 @@
 ---
 name: doit-pt
-description: agent_payments_PT.html 형식의 에디토리얼 슬라이드 덱(HTML)을 생성. 스크롤-스냅 풀뷰포트 슬라이드, Pretendard, 종이 질감·inset 프레임, cover·cards3·timeline·compare·revenue·end 등 슬라이드 타입. 발표자료·PT·슬라이드·피치덱 요청 시 사용.
+description: agent_payments_PT.html 형식의 에디토리얼 슬라이드 덱(HTML)을 생성. 스크롤-스냅 풀뷰포트 슬라이드, Pretendard, 종이 질감·inset 프레임, cover·cards3·timeline·compare·revenue·end 등 슬라이드 타입. 모바일에서는 슬라이드 1장이 화면 1페이지에 자동으로 맞춰진다. 발표자료·PT·슬라이드·피치덱 요청 시 사용.
 ---
 
 # Report-PT — 에디토리얼 슬라이드 덱 생성
@@ -22,7 +22,20 @@ description: agent_payments_PT.html 형식의 에디토리얼 슬라이드 덱(H
 - **에디토리얼 종이 미학**: 웜 그레이 배경 `#f4f3ef`, 종이색 슬라이드 `#fbfaf7`, 슬라이드마다 inset 얇은 테두리 프레임(`.slide::before`), 블랙 강조.
 - **타이포**: Pretendard(CDN). h1 `clamp(52~78px)` 초굵게(840)·음수 자간, `word-break: keep-all`.
 - **우측 progress dots** + 좌하단 nav-hint + 키보드 네비 = `<script>`가 자동 생성.
+- **모바일 = 슬라이드 1장이 화면 1페이지**(아래 참조) — 스켈레톤이 자동 처리.
 - 색·폰트·레이아웃은 `assets/pt-skeleton.html`의 `<style>`·`<script>`에 이미 정의됨 — **그대로 유지한다.**
+
+## 모바일 대응 (스켈레톤이 자동 처리 — 손댈 필요 없음)
+
+`≤980px`에서 각 슬라이드가 **스크롤 없이 화면 한 장에 들어온다.** 데스크톱 렌더링은 영향 없음.
+
+- 모바일 모든 크기는 `.slide`의 base `font-size`에 대한 **`em`으로 정의**되고, `fitMobile()`이 넘치는 슬라이드만 15px → 8px까지 0.25씩 줄여 맞춘 뒤 세로 가운데 정렬한다.
+- 높이는 `100dvh` — 모바일 주소창 숨김/표시에 따른 잘림 방지.
+- 표(`.plain-table`)는 행 단위 세로 적층, 5·6열 그리드는 2열, 다이어그램(`.flow-area`·`.channel-grid`·`.layer`)은 1열로 전환.
+
+> ⚠️ **새 컴포넌트를 추가하면 절대 px 폰트를 모바일 블록에서 `em`으로 반드시 덮을 것.**
+> 안 덮으면 그 서브트리만 축소를 무시해 **autofit이 통째로 실패한다**(폰트를 아무리 줄여도 높이가 안 줄어듦).
+> 실제 사고 사례: `.plain-table { font-size: 20px }`를 안 덮어 표 슬라이드가 8px에서도 계속 넘쳤다.
 
 ## 슬라이드 타입 (실제 마크업은 `assets/pt-skeleton.html`에 있음 — 복제해서 텍스트만 교체)
 
@@ -57,6 +70,7 @@ description: agent_payments_PT.html 형식의 에디토리얼 슬라이드 덱(H
 6. `<title>`·표지 `h1`·`.kicker`를 주제에 맞게.
 7. **저장**: `<주제>_PT.html` (예: `baaam_PT.html`).
 8. **열기**: 브라우저로 확인. PDF가 필요하면 브라우저 인쇄(가로·배경 그래픽 켜기).
+9. **모바일 확인**: 창을 좁히거나(≤980px) 개발자도구 기기 모드로 **모든 슬라이드가 스크롤 없이 한 화면에 들어오는지** 본다. 넘친다면 그 슬라이드의 내용이 과밀한 것이므로 **문장을 줄인다** — CSS를 손대지 않는다.
 
 ## 원칙
 
