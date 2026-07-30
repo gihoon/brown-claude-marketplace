@@ -98,7 +98,92 @@ li { color: var(--muted); font-size: 20px; line-height: 1.7; letter-spacing: -0.
 .revenue-item div { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
 .revenue-item p { margin-top: 18px; color: var(--muted); font-size: 15px; line-height: 1.48; letter-spacing: -0.02em; }
 .slide-end { align-items: flex-start; }
-@media (max-width: 980px) { html, body { overflow:auto; } .slide { height:auto; min-height:100vh; padding:48px 28px; } .slide::before { inset:12px; } .grid-3, .timeline4, .steps6, .monitor-grid, .revenue-grid, .flow-area, .channel-grid, .split-arrow, .compare-wrap { grid-template-columns:1fr; } .bridge { min-height:70px; } .node::after, .node::before { display:none; } .channel .escrow { width:100%; } .benefits { grid-template-columns:1fr 1fr; } .layer { grid-template-columns:1fr; } .layer-copy { border-left:0; border-top:1px solid var(--line); } .footer, .progress, .nav-hint { display:none; } }
+/* ── Mobile: 슬라이드 1장 = 화면 1페이지 ──
+   모든 크기를 .slide의 base font-size에 대한 em으로 잡고, fitMobile() JS가
+   넘치면 base를 줄여 한 화면에 맞춘다.
+   ⚠️ 컴포넌트를 추가하면 절대 px 폰트를 반드시 여기서 em으로 덮을 것 —
+      안 덮으면 그 서브트리만 축소를 무시해 autofit이 통째로 실패한다. */
+@media (max-width: 980px) {
+  html, body { overflow: hidden; }
+  .deck { height: 100vh; height: 100dvh; }
+  .slide {
+    font-size: 15px;
+    width: 100vw; height: 100vh; height: 100dvh; min-height: 0;
+    padding: 26px 18px 34px;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  .slide-cover, .slide-end { justify-content: center; }
+  .slide::before { inset: 10px; }
+  .progress, .nav-hint { display: none; }
+
+  .kicker { font-size: 0.7em; letter-spacing: 0.12em; margin-bottom: 0.7em; }
+  h1 { font-size: 2em; line-height: 1.1; letter-spacing: -0.045em; }
+  h2 { font-size: 1.4em; line-height: 1.26; }
+  h3 { font-size: 1.02em; }
+  .lead { font-size: 0.95em; line-height: 1.5; margin-top: 0.75em; }
+  .statement { font-size: 1.05em; line-height: 1.38; margin-top: 0.7em; }
+
+  .grid { gap: 0.45em; margin-top: 0.8em; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .card { padding: 0.8em 0.85em; min-height: 0; }
+  .card-title { font-size: 1em; line-height: 1.26; }
+  .card p { font-size: 0.85em; line-height: 1.45; margin-top: 0.5em; }
+
+  .split-arrow, .compare-wrap { grid-template-columns: 1fr; gap: 0.4em; margin-top: 0.7em; }
+  .panel { padding: 0.75em 0.8em; }
+  .panel-label { font-size: 1em; margin-bottom: 0.5em; }
+  .bridge { min-height: 0; padding: 0.3em; font-size: 0.78em; }
+  ul { padding-left: 1.1em; }
+  li { font-size: 0.85em; line-height: 1.42; }
+  li + li { margin-top: 0.35em; }
+
+  /* 표: 모바일에서 행 단위로 세로 적층 */
+  .plain-table { font-size: 1em; margin-top: 0.75em; }
+  .plain-table, .plain-table tbody, .plain-table tr, .plain-table th, .plain-table td { display: block; width: 100%; }
+  .plain-table tr { border-bottom: 1px solid var(--line); }
+  .plain-table tr:last-child { border-bottom: 0; }
+  .plain-table th, .plain-table td { border-bottom: 0; }
+  .plain-table th { padding: 0.4em 0.6em; font-size: 0.85em; line-height: 1.3; }
+  .plain-table td { padding: 0.5em 0.6em 0.65em; font-size: 0.82em; line-height: 1.45; }
+
+  .timeline4, .steps6, .revenue-grid, .monitor-grid { grid-template-columns: 1fr 1fr; gap: 0.4em; margin-top: 0.7em; }
+  .phase, .revenue-item { min-height: 0; padding: 0.6em 0.65em; }
+  .step { min-height: 0; padding-top: 0.6em; }
+  .monitor { min-height: 0; padding: 0.6em 0.6em 0; }
+  .phase-no, .step-no { font-size: 0.7em; margin-bottom: 0.5em; }
+  .phase-head { font-size: 0.85em; margin-bottom: 0.5em; }
+  .phase p, .step p, .monitor p { font-size: 0.8em; line-height: 1.4; margin-top: 0.45em; }
+  .revenue-item div, .monitor-name { font-size: 0.92em; margin-bottom: 0.5em; }
+  .revenue-item p { font-size: 0.78em; line-height: 1.42; margin-top: 0.5em; }
+
+  /* 다이어그램 계열 — 고정 px 폭을 전부 해제 */
+  .diagram { padding: 0.7em; margin-top: 0.7em; }
+  .flow-area, .channel-grid { grid-template-columns: 1fr; gap: 0.5em; }
+  .node { min-height: 0; padding: 0.7em 0.75em; }
+  .node p { font-size: 0.8em; line-height: 1.4; margin-top: 0.4em; }
+  .node::after, .node::before { display: none; }
+  .icon { width: 2em; height: 2em; font-size: 0.9em; margin-bottom: 0.5em; }
+  .mid { gap: 0.45em; }
+  .core { min-height: 0; }
+  .core-list { gap: 0.3em; margin-top: 0.5em; }
+  .core-list span { padding: 0.35em 0.45em; font-size: 0.78em; }
+  .config-box { width: 100%; margin: 0 auto 0.5em; padding: 0.5em 0.6em; }
+  .config-box strong { font-size: 0.9em; }
+  .config-box span, small { font-size: 0.75em; }
+  .settlement, .escrow { padding: 0.5em; font-size: 0.85em; }
+  .channel .escrow { width: 100%; margin: 0.5em auto 0; }
+  .step-lines { grid-template-columns: repeat(3, 1fr); gap: 0.3em; margin-top: 0.5em; }
+  .step-lines span { padding-top: 0.35em; font-size: 0.7em; }
+  .benefits { grid-template-columns: 1fr 1fr; gap: 0.35em; margin-top: 0.6em; }
+  .benefits span { padding-top: 0.4em; font-size: 0.78em; }
+  .stack { gap: 0.35em; margin-top: 0.7em; }
+  .layer { grid-template-columns: 1fr; }
+  .layer-title { padding: 0.5em 0.6em 0; font-size: 0.95em; }
+  .layer-copy { padding: 0.35em 0.6em 0.6em; font-size: 0.82em; line-height: 1.4; border-left: 0; border-top: 1px solid var(--line); }
+
+  .footer { left: 20px; right: 20px; bottom: 14px; font-size: 0.62em; }
+}
 @media print { html, body { overflow: visible; } .deck { overflow: visible; height: auto; } .slide { page-break-after: always; height: 100vh; min-height: 720px; } .progress, .nav-hint { display: none; } }
 </style>
 </head>
@@ -274,7 +359,27 @@ slides.forEach((_, i) => {
   progress.appendChild(dot);
 });
 const dots = Array.from(document.querySelectorAll('.dot'));
-function currentIndex() { return Math.round(deck.scrollTop / window.innerHeight); }
+function currentIndex() { return Math.round(deck.scrollTop / deck.clientHeight); }
+
+/* 모바일: 슬라이드 내용이 한 화면을 넘치면 기준 폰트를 줄여 맞춘다 */
+function fitMobile() {
+  const mobile = window.matchMedia('(max-width: 980px)').matches;
+  slides.forEach((s) => {
+    if (!mobile) { s.style.fontSize = ''; s.style.justifyContent = ''; return; }
+    s.style.justifyContent = 'flex-start';   // 위 정렬 상태에서 측정해야 넘침이 잡힌다
+    let size = 15;
+    s.style.fontSize = size + 'px';
+    while (s.scrollHeight > s.clientHeight && size > 8) {
+      size -= 0.25;
+      s.style.fontSize = size + 'px';
+    }
+    s.style.justifyContent = 'center';       // 다 들어간 뒤 세로 가운데 정렬
+  });
+}
+fitMobile();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMobile);
+let fitTimer;
+window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitMobile, 150); });
 function updateDots() { const idx = Math.max(0, Math.min(slides.length - 1, currentIndex())); dots.forEach((dot, i) => dot.classList.toggle('active', i === idx)); }
 deck.addEventListener('scroll', () => window.requestAnimationFrame(updateDots));
 function go(delta) { const idx = Math.max(0, Math.min(slides.length - 1, currentIndex() + delta)); slides[idx].scrollIntoView({ behavior: 'smooth' }); }
